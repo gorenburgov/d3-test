@@ -18,6 +18,19 @@ export default class Chart {
             .append('g')
             .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
 
+
+        this.updateScales = () => {
+            this.xScale = d3.scaleTime()
+                .range([0, this.width - this.margin.right])
+                .domain(d3.extent(this.data, (d) => d.date));
+
+            this.yScale = d3.scaleLinear()
+                .range([this.height - this.margin.top - this.margin.bottom, 0])
+                .domain(d3.extent(this.data, (d) => d.close));
+        };
+
+        this.updateScales();
+
         this.axes = new Axes(this, this.container);
 
         this.areaFunc = d3.area()
